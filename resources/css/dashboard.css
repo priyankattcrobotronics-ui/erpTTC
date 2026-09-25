@@ -5,12 +5,10 @@
     --muted: #718096;
     --line: #e7ebf1;
     --paper: #f5f7fb;
-
     --green: #15946b;
     --green-dark: #087a56;
     --green-light: #e8f7f1;
     --green-soft: #f3fbf8;
-
     --sidebar: #101a2b;
     --sidebar-hover: #18372f;
 }
@@ -80,13 +78,10 @@ svg {
     box-shadow: 4px 0 20px rgba(15, 23, 42, 0.08);
 }
 
-/* LOGO */
-
 .sidebar-logo {
     display: flex;
     align-items: center;
     gap: 12px;
-
     padding: 0 12px 34px;
 }
 
@@ -113,6 +108,7 @@ svg {
     color: #fff;
 
     font: 800 14px "Manrope", sans-serif;
+
     letter-spacing: 0.04em;
 }
 
@@ -122,10 +118,9 @@ svg {
     margin-top: 3px;
 
     color: #92a0b7;
+
     font-size: 11px;
 }
-
-/* MENU */
 
 .sidebar-menu {
     width: 100%;
@@ -138,15 +133,18 @@ svg {
 
     font-size: 10px;
     font-weight: 700;
+
     letter-spacing: 0.14em;
 }
 
 .sidebar-menu-item {
     display: flex;
     align-items: center;
+
     gap: 13px;
 
     min-height: 45px;
+
     padding: 0 13px;
 
     color: #aab6c9;
@@ -171,6 +169,7 @@ svg {
 .sidebar-menu-item:hover {
     color: #fff;
     background: #172b3e;
+
     transform: translateX(2px);
 }
 
@@ -190,10 +189,9 @@ svg {
     color: #4ed39f;
 }
 
-/* SIDEBAR BOTTOM */
-
 .sidebar-bottom {
     margin-top: auto;
+
     padding: 16px 10px 0;
 
     border-top: 1px solid #25334a;
@@ -202,6 +200,7 @@ svg {
 .sidebar-security {
     display: flex;
     align-items: center;
+
     gap: 10px;
 
     color: #75d8b5;
@@ -220,6 +219,7 @@ svg {
     margin-top: 2px;
 
     color: #74839a;
+
     font-size: 11px;
 }
 
@@ -229,7 +229,9 @@ svg {
 
 .erp-main {
     width: calc(100% - 255px);
+
     min-height: 100vh;
+
     margin-left: 255px;
 }
 
@@ -243,9 +245,11 @@ svg {
     justify-content: space-between;
 
     min-height: 92px;
+
     padding: 22px 42px;
 
     background: #fff;
+
     border-bottom: 1px solid var(--line);
 }
 
@@ -259,16 +263,20 @@ svg {
     margin: 5px 0 0;
 
     color: var(--muted);
+
     font-size: 12px;
 }
 
 .topbar-right {
     display: flex;
     align-items: center;
+
     gap: 18px;
 }
 
-/* NOTIFICATION */
+/* =========================================================
+   NOTIFICATION
+========================================================= */
 
 .notification-button,
 .logout-button {
@@ -299,6 +307,7 @@ svg {
     color: var(--green);
 
     border-color: #b9e5d5;
+
     background: var(--green-light);
 }
 
@@ -312,32 +321,69 @@ svg {
     height: 7px;
 
     border: 2px solid #fff;
+
     border-radius: 50%;
 
     background: #e56b63;
 }
 
-/* USER */
+/* =========================================================
+   USER
+========================================================= */
 
 .user-profile {
     display: flex;
     align-items: center;
+
     gap: 10px;
 }
 
+/* Existing avatar size preserved */
 .user-avatar {
-    display: grid;
-    place-items: center;
-
     width: 38px;
     height: 38px;
+
+    min-width: 38px;
+    max-width: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
 
     color: var(--green-dark);
 
     border-radius: 50%;
+
     background: var(--green-light);
 
     font-weight: 700;
+
+    flex-shrink: 0;
+}
+
+/* Profile image fits exactly inside 38px circle */
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+    object-position: center;
+
+    border-radius: 50%;
+}
+
+/* Letter fallback */
+.user-avatar span {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .user-details strong,
@@ -357,18 +403,23 @@ svg {
     overflow: hidden;
 
     color: var(--muted);
+
     font-size: 11px;
 
     text-overflow: ellipsis;
+
     white-space: nowrap;
 }
 
-/* LOGOUT */
+/* =========================================================
+   LOGOUT
+========================================================= */
 
 .logout-button:hover {
     color: #d94f4f;
 
     border-color: #ffd2d2;
+
     background: #fff4f4;
 }
 
@@ -378,10 +429,12 @@ svg {
 
 .dashboard-content {
     width: 100%;
-    max-width: 1500px;
+    max-width: none;
 
-    margin: 0 auto;
-    padding: 32px 42px 45px;
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
 }
 
 /* =========================================================
@@ -396,6 +449,7 @@ svg {
     justify-content: space-between;
 
     min-height: 160px;
+
     padding: 30px 36px;
 
     overflow: hidden;
@@ -432,6 +486,7 @@ svg {
     height: 250px;
 
     border: 1px solid rgba(255, 255, 255, 0.12);
+
     border-radius: 50%;
 }
 
@@ -440,6 +495,7 @@ svg {
 
     font-size: 10px;
     font-weight: 700;
+
     letter-spacing: 0.13em;
 }
 
@@ -453,6 +509,7 @@ svg {
     margin: 0;
 
     color: #d5f4e8;
+
     font-size: 13px;
 }
 
@@ -463,6 +520,7 @@ svg {
     margin-right: 25px;
 
     color: #b7ebd8;
+
     opacity: 0.75;
 
     transform: scale(3);
@@ -488,6 +546,7 @@ svg {
     background: #fff;
 
     border: 1px solid var(--line);
+
     border-radius: 12px;
 
     box-shadow: 0 4px 14px rgba(26, 43, 74, 0.035);
@@ -520,6 +579,7 @@ svg {
     color: var(--green);
 
     border-radius: 10px;
+
     background: var(--green-light);
 }
 
@@ -529,6 +589,7 @@ svg {
     color: #13835f;
 
     border-radius: 5px;
+
     background: #e8f7f1;
 
     font-size: 11px;
@@ -543,6 +604,7 @@ svg {
     display: block;
 
     color: var(--muted);
+
     font-size: 12px;
 }
 
@@ -572,6 +634,7 @@ svg {
     background: #fff;
 
     border: 1px solid var(--line);
+
     border-radius: 12px;
 
     box-shadow: 0 4px 14px rgba(26, 43, 74, 0.035);
@@ -595,6 +658,7 @@ svg {
     margin: 5px 0 0;
 
     color: var(--muted);
+
     font-size: 12px;
 }
 
@@ -602,6 +666,7 @@ svg {
     color: var(--green);
 
     border: 0;
+
     background: none;
 
     font-size: 12px;
@@ -636,6 +701,7 @@ svg {
 
 .sale-info {
     flex: 1;
+
     min-width: 0;
 }
 
@@ -654,19 +720,23 @@ svg {
     overflow: hidden;
 
     color: var(--muted);
+
     font-size: 11px;
 
     text-overflow: ellipsis;
+
     white-space: nowrap;
 }
 
 .sale-amount {
     font-size: 13px;
+
     white-space: nowrap;
 }
 
 .sale-status {
     min-width: 55px;
+
     padding: 5px 7px;
 
     text-align: center;
@@ -679,11 +749,13 @@ svg {
 
 .status-paid {
     color: #13835f;
+
     background: #e7f8f0;
 }
 
 .status-pending {
     color: #bd7a16;
+
     background: #fff5df;
 }
 
@@ -713,6 +785,7 @@ svg {
     text-align: left;
 
     border: 1px solid #edf0f4;
+
     border-radius: 9px;
 
     background: #fff;
@@ -728,6 +801,7 @@ svg {
 
 .quick-action:hover {
     border-color: #b9e5d5;
+
     background: var(--green-soft);
 
     transform: translateY(-2px);
@@ -744,6 +818,7 @@ svg {
 
 .quick-action-content {
     flex: 1;
+
     min-width: 0;
 }
 
@@ -754,6 +829,7 @@ svg {
 
 .quick-action-content strong {
     color: var(--ink);
+
     font-size: 12px;
 }
 
@@ -763,9 +839,11 @@ svg {
     overflow: hidden;
 
     color: var(--muted);
+
     font-size: 10px;
 
     text-overflow: ellipsis;
+
     white-space: nowrap;
 }
 
@@ -783,6 +861,7 @@ svg {
 
 .quick-action:hover .quick-arrow {
     color: var(--green);
+
     transform: translateX(3px);
 }
 
@@ -806,6 +885,7 @@ svg {
     padding: 16px;
 
     border: 1px solid #edf0f4;
+
     border-radius: 9px;
 
     background: #fafbfd;
@@ -818,6 +898,7 @@ svg {
 
 .summary-item:hover {
     border-color: #cbe9dd;
+
     background: var(--green-soft);
 
     transform: translateY(-2px);
@@ -827,6 +908,7 @@ svg {
     display: block;
 
     color: var(--muted);
+
     font-size: 11px;
 }
 
@@ -841,7 +923,7 @@ svg {
 }
 
 /* =========================================================
-   RESPONSIVE
+   RESPONSIVE - 1200px
 ========================================================= */
 
 @media (max-width: 1200px) {
@@ -862,14 +944,21 @@ svg {
     }
 }
 
+/* =========================================================
+   RESPONSIVE - 1000px
+========================================================= */
+
 @media (max-width: 1000px) {
     .erp-sidebar {
         width: 220px;
     }
 
     .erp-main {
-        width: calc(100% - 220px);
-        margin-left: 220px;
+        flex: 1;
+
+        min-width: 0;
+
+        width: calc(100% - 260px);
     }
 
     .dashboard-grid {
@@ -881,11 +970,16 @@ svg {
     }
 }
 
+/* =========================================================
+   RESPONSIVE - 760px
+========================================================= */
+
 @media (max-width: 760px) {
     .erp-sidebar {
         position: relative;
 
         width: 100%;
+
         min-height: auto;
 
         padding: 18px 14px;
@@ -897,6 +991,7 @@ svg {
 
     .erp-main {
         width: 100%;
+
         margin-left: 0;
     }
 
@@ -906,12 +1001,15 @@ svg {
 
     .sidebar-menu {
         display: grid;
+
         grid-template-columns: repeat(2, 1fr);
+
         gap: 4px;
     }
 
     .menu-section-title {
         grid-column: 1 / -1;
+
         margin: 12px 8px 5px;
     }
 
@@ -921,6 +1019,7 @@ svg {
 
     .erp-topbar {
         min-height: 75px;
+
         padding: 18px 20px;
     }
 
@@ -950,6 +1049,7 @@ svg {
 
     .dashboard-stats {
         grid-template-columns: 1fr 1fr;
+
         gap: 12px;
     }
 
@@ -961,6 +1061,10 @@ svg {
         grid-template-columns: 1fr 1fr;
     }
 }
+
+/* =========================================================
+   RESPONSIVE - 520px
+========================================================= */
 
 @media (max-width: 520px) {
     .topbar-right {
@@ -1002,6 +1106,10 @@ svg {
     }
 }
 
+/* =========================================================
+   RESPONSIVE - 380px
+========================================================= */
+
 @media (max-width: 380px) {
     .sidebar-menu {
         grid-template-columns: 1fr;
@@ -1022,4 +1130,369 @@ svg {
     .welcome-card h2 {
         font-size: 18px;
     }
+
+    /* start users css */
+
+    /* =========================================================
+    USER CREATE FORM
+    ========================================================= */
+
+    .user-page {
+        padding: 30px 42px 45px;
+    }
+
+    .user-page-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        margin-bottom: 20px;
+    }
+
+    .user-page-header h2 {
+        margin: 0;
+
+        color: var(--ink);
+
+        font: 800 21px "Manrope", sans-serif;
+    }
+
+    .user-page-header p {
+        margin: 5px 0 0;
+
+        color: var(--muted);
+
+        font-size: 12px;
+    }
+
+    .user-back-button {
+        padding: 10px 15px;
+
+        color: var(--green);
+
+        border: 1px solid #b9e5d5;
+        border-radius: 8px;
+
+        background: var(--green-light);
+
+        font-size: 12px;
+        font-weight: 700;
+
+        text-decoration: none;
+    }
+
+    .user-back-button:hover {
+        color: #fff;
+
+        background: var(--green);
+    }
+
+    .user-form-card {
+        background: #fff;
+
+        border: 1px solid var(--line);
+
+        border-radius: 13px;
+
+        box-shadow: 0 4px 14px rgba(26, 43, 74, 0.035);
+
+        overflow: hidden;
+    }
+
+    .user-form-section {
+        padding: 25px 28px;
+
+        border-bottom: 1px solid var(--line);
+    }
+
+    .user-section-title {
+        margin-bottom: 22px;
+    }
+
+    .user-section-title h3 {
+        margin: 0;
+
+        color: var(--ink);
+
+        font: 800 15px "Manrope", sans-serif;
+    }
+
+    .user-section-title p {
+        margin: 5px 0 0;
+
+        color: var(--muted);
+
+        font-size: 11px;
+    }
+
+    .user-form-grid {
+        display: grid;
+
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 18px 20px;
+    }
+
+    .user-form-group {
+        min-width: 0;
+    }
+
+    .user-form-group label {
+        display: block;
+
+        margin-bottom: 7px;
+
+        color: var(--ink);
+
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .user-form-group label span {
+        color: #e05656;
+    }
+
+    .user-form-group input,
+    .user-form-group select {
+        width: 100%;
+
+        height: 43px;
+
+        padding: 0 12px;
+
+        color: var(--ink);
+
+        border: 1px solid #dfe5ec;
+
+        border-radius: 8px;
+
+        background: #fff;
+
+        outline: none;
+
+        font-size: 12px;
+
+        transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+    .user-form-group input:focus,
+    .user-form-group select:focus {
+        border-color: var(--green);
+
+        box-shadow: 0 0 0 3px rgba(21, 148, 107, 0.08);
+    }
+
+    .user-form-group input::placeholder {
+        color: #a2acba;
+    }
+
+    .user-error {
+        margin-top: 5px;
+
+        color: #d94f4f;
+
+        font-size: 10px;
+    }
+
+    /* ACCOUNT SETTINGS */
+
+    .user-settings-grid {
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+
+        gap: 20px;
+
+        align-items: start;
+    }
+
+    .user-switch-box {
+        display: flex;
+        align-items: center;
+
+        min-height: 70px;
+
+        gap: 12px;
+
+        padding: 13px 15px;
+
+        border: 1px solid #e5eaf0;
+
+        border-radius: 9px;
+
+        background: #fafbfd;
+
+        cursor: pointer;
+    }
+
+    .user-switch-box input {
+        width: 18px;
+        height: 18px;
+
+        margin: 0;
+
+        accent-color: var(--green);
+
+        cursor: pointer;
+    }
+
+    .user-switch-box strong,
+    .user-switch-box small {
+        display: block;
+    }
+
+    .user-switch-box strong {
+        color: var(--ink);
+
+        font-size: 12px;
+    }
+
+    .user-switch-box small {
+        margin-top: 4px;
+
+        color: var(--muted);
+
+        font-size: 10px;
+    }
+
+    /* ACTIONS */
+
+    .user-form-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
+        gap: 10px;
+
+        padding: 20px 28px;
+
+        background: #fafbfd;
+    }
+
+    .user-cancel-button,
+    .user-save-button {
+        min-width: 110px;
+
+        height: 40px;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 0 18px;
+
+        border-radius: 8px;
+
+        font-size: 12px;
+        font-weight: 700;
+
+        text-decoration: none;
+
+        cursor: pointer;
+    }
+
+    .user-cancel-button {
+        color: #687588;
+
+        border: 1px solid #dfe5ec;
+
+        background: #fff;
+    }
+
+    .user-cancel-button:hover {
+        color: var(--ink);
+
+        background: #f5f7fa;
+    }
+
+    .user-save-button {
+        color: #fff;
+
+        border: 1px solid var(--green);
+
+        background: var(--green);
+
+        transition:
+            background 0.2s ease,
+            border-color 0.2s ease,
+            transform 0.2s ease;
+    }
+
+    .user-save-button:hover {
+        border-color: var(--green-dark);
+
+        background: var(--green-dark);
+
+        transform: translateY(-1px);
+    }
+
+    .user-save-button:disabled {
+        opacity: 0.65;
+
+        cursor: not-allowed;
+
+        transform: none;
+    }
+
+    /* =========================================================
+    USER FORM RESPONSIVE
+    ========================================================= */
+
+    @media (max-width: 760px) {
+        .user-page {
+            padding: 22px 18px 35px;
+        }
+
+        .user-page-header {
+            align-items: flex-start;
+
+            gap: 12px;
+        }
+
+        .user-form-section {
+            padding: 20px;
+        }
+
+        .user-form-grid,
+        .user-settings-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .user-form-actions {
+            padding: 18px 20px;
+        }
+    }
+
+    @media (max-width: 520px) {
+        .user-page {
+            padding: 18px 12px 30px;
+        }
+
+        .user-page-header {
+            flex-direction: column;
+        }
+
+        .user-back-button {
+            width: 100%;
+
+            text-align: center;
+        }
+
+        .user-form-section {
+            padding: 18px;
+        }
+
+        .user-form-actions {
+            flex-direction: column-reverse;
+        }
+
+        .user-cancel-button,
+        .user-save-button {
+            width: 100%;
+        }
+    }
+    /* end users css */
+
 }

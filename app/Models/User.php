@@ -34,6 +34,8 @@ class User extends Authenticatable
         'password',
     ];
 
+    // protected $fillable = [ 'role_id', 'first_name', 'last_name', 'username', 'email', 'email_verified_at', 'status', 'password', ];
+
     protected $hidden = [
         'password',
         'remember_token',
@@ -44,8 +46,8 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'dob' => 'date',
-            'logs' => 'array',
+            // 'dob' => 'date',
+            // 'logs' => 'array',
             'status' => 'boolean',
         ];
     }

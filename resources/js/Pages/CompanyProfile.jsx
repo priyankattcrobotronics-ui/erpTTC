@@ -2,21 +2,31 @@ import React, { useState } from "react";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import AppLayout from "@/Layouts/AppLayout";
 
-export default function ProfileEdit() {
-    const { auth, flash, countries } = usePage().props;
-
-    const user = auth?.user;
-
+export default function CompanyProfile() {
+    const { company, flash, countries } = usePage().props;
 
     /*
     |--------------------------------------------------------------------------
-    | Profile Image Preview
+    | Logo Preview
     |--------------------------------------------------------------------------
     */
 
     const [preview, setPreview] = useState(
-        user?.image
-            ? `/storage/${user.image}`
+        company?.logo
+            ? `/storage/${company.logo}`
+            : null
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Favicon Preview
+    |--------------------------------------------------------------------------
+    */
+
+    const [faviconPreview, setFaviconPreview] = useState(
+        company?.favicon
+            ? `/storage/${company.favicon}`
             : null
     );
 
@@ -37,31 +47,33 @@ export default function ProfileEdit() {
 
         _method: "PUT",
 
-        first_name: user?.first_name || "",
-        last_name: user?.last_name || "",
+        company_name: company?.company_name || "",
 
-        username: user?.username || "",
-        email: user?.email || "",
+        logo: null,
 
-        phone_number: user?.phone_number || "",
+        favicon: null,
 
-        dob: user?.dob || "",
+        email: company?.email || "",
+        phone: company?.phone || "",
 
-        address: user?.address || "",
+        address: company?.address || "",
 
-        country_id: user?.country_id || "",
-        state_id: user?.state_id || "",
-        city_id: user?.city_id || "",
+        country_id: company?.country_id || "",
+        state_id: company?.state_id || "",
+        city_id: company?.city_id || "",
 
-        zipcode: user?.zipcode || "",
+        zipcode: company?.zipcode || "",
 
-        image: null,
+        gst_number: company?.gst_number || "",
+        pan_number: company?.pan_number || "",
+
+        website: company?.website || "",
     });
 
 
     /*
     |--------------------------------------------------------------------------
-    | Country / State / City
+    | Country / State / City Data
     |--------------------------------------------------------------------------
     */
 
@@ -83,16 +95,14 @@ export default function ProfileEdit() {
 
     /*
     |--------------------------------------------------------------------------
-    | Normal Input
+    | Normal Input Change
     |--------------------------------------------------------------------------
     */
 
     const handleChange = (e) => {
-
         const { name, value } = e.target;
 
         setData(name, value);
-
     };
 
 
@@ -103,18 +113,14 @@ export default function ProfileEdit() {
     */
 
     const handleCountryChange = (e) => {
-
         const countryId = e.target.value;
 
         setData((data) => ({
             ...data,
-
             country_id: countryId,
-
             state_id: "",
             city_id: "",
         }));
-
     };
 
 
@@ -125,17 +131,13 @@ export default function ProfileEdit() {
     */
 
     const handleStateChange = (e) => {
-
         const stateId = e.target.value;
 
         setData((data) => ({
             ...data,
-
             state_id: stateId,
-
             city_id: "",
         }));
-
     };
 
 
@@ -146,32 +148,49 @@ export default function ProfileEdit() {
     */
 
     const handleCityChange = (e) => {
-
         setData("city_id", e.target.value);
-
     };
 
 
     /*
     |--------------------------------------------------------------------------
-    | Image Change
+    | Logo Change
     |--------------------------------------------------------------------------
     */
 
-    const handleImageChange = (e) => {
-
+    const handleLogoChange = (e) => {
         const file = e.target.files[0];
 
         if (!file) {
             return;
         }
 
-        setData("image", file);
+        setData("logo", file);
 
         setPreview(
             URL.createObjectURL(file)
         );
+    };
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Favicon Change
+    |--------------------------------------------------------------------------
+    */
+
+    const handleFaviconChange = (e) => {
+        const file = e.target.files[0];
+
+        if (!file) {
+            return;
+        }
+
+        setData("favicon", file);
+
+        setFaviconPreview(
+            URL.createObjectURL(file)
+        );
     };
 
 
@@ -182,44 +201,36 @@ export default function ProfileEdit() {
     */
 
     const submit = (e) => {
-
         e.preventDefault();
 
-        post("/profile", {
-
+        post("/company-profile", {
             forceFormData: true,
-
             preserveScroll: true,
-
         });
-
     };
 
 
     return (
+        <AppLayout title="Company Profile">
 
-        <AppLayout title="Profile">
-
-            <Head title="My Profile" />
-
-
-            <div className="profile-page">
+            <Head title="Company Profile" />
 
 
-                {/* =========================================================
-                    Header
-                ========================================================== */}
+            <div className="company-profile-page">
+
+
+                {/* Header */}
 
                 <div className="page-header">
 
                     <div>
 
                         <h1>
-                            My Profile
+                            Company Profile
                         </h1>
 
                         <p>
-                            Manage your personal account information.
+                            Manage your company information and business details.
                         </p>
 
                     </div>
@@ -235,24 +246,16 @@ export default function ProfileEdit() {
                 </div>
 
 
-                {/* =========================================================
-                    Success Message
-                ========================================================== */}
+                {/* Success Message */}
 
                 {flash?.success && (
-
                     <div className="success-message">
-
                         {flash.success}
-
                     </div>
-
                 )}
 
 
-                {/* =========================================================
-                    Form
-                ========================================================== */}
+                {/* Form */}
 
                 <form
                     onSubmit={submit}
@@ -261,7 +264,7 @@ export default function ProfileEdit() {
 
 
                     {/* =====================================================
-                        Personal Information
+                        Company Information
                     ====================================================== */}
 
                     <div className="card">
@@ -269,11 +272,11 @@ export default function ProfileEdit() {
                         <div className="card-header">
 
                             <h2>
-                                Personal Information
+                                Company Information
                             </h2>
 
                             <p>
-                                Update your personal account details.
+                                Basic information about your company.
                             </p>
 
                         </div>
@@ -282,77 +285,26 @@ export default function ProfileEdit() {
                         <div className="form-grid">
 
 
-                            {/* First Name */}
+                            {/* Company Name */}
 
-                            <div className="form-group">
+                            <div className="form-group full-width">
 
                                 <label>
-                                    First Name
+                                    Company Name
                                     <span>*</span>
                                 </label>
 
                                 <input
                                     type="text"
-                                    name="first_name"
-                                    value={data.first_name}
+                                    name="company_name"
+                                    value={data.company_name}
                                     onChange={handleChange}
-                                    placeholder="Enter first name"
+                                    placeholder="Enter company name"
                                 />
 
-                                {errors.first_name && (
+                                {errors.company_name && (
                                     <small className="error">
-                                        {errors.first_name}
-                                    </small>
-                                )}
-
-                            </div>
-
-
-                            {/* Last Name */}
-
-                            <div className="form-group">
-
-                                <label>
-                                    Last Name
-                                </label>
-
-                                <input
-                                    type="text"
-                                    name="last_name"
-                                    value={data.last_name}
-                                    onChange={handleChange}
-                                    placeholder="Enter last name"
-                                />
-
-                                {errors.last_name && (
-                                    <small className="error">
-                                        {errors.last_name}
-                                    </small>
-                                )}
-
-                            </div>
-
-
-                            {/* Username */}
-
-                            <div className="form-group">
-
-                                <label>
-                                    Username
-                                    <span>*</span>
-                                </label>
-
-                                <input
-                                    type="text"
-                                    name="username"
-                                    value={data.username}
-                                    onChange={handleChange}
-                                    placeholder="Enter username"
-                                />
-
-                                {errors.username && (
-                                    <small className="error">
-                                        {errors.username}
+                                        {errors.company_name}
                                     </small>
                                 )}
 
@@ -365,7 +317,6 @@ export default function ProfileEdit() {
 
                                 <label>
                                     Email
-                                    <span>*</span>
                                 </label>
 
                                 <input
@@ -373,7 +324,7 @@ export default function ProfileEdit() {
                                     name="email"
                                     value={data.email}
                                     onChange={handleChange}
-                                    placeholder="Enter email address"
+                                    placeholder="company@example.com"
                                 />
 
                                 {errors.email && (
@@ -386,6 +337,7 @@ export default function ProfileEdit() {
 
 
                             {/* Phone */}
+
                             <div className="form-group">
 
                                 <label>
@@ -394,46 +346,115 @@ export default function ProfileEdit() {
 
                                 <input
                                     type="text"
-                                    name="phone_number"
-                                    value={data.phone_number}
-                                    onChange={(e) => {
-                                        const value = e.target.value.replace(/\D/g, "");
-
-                                        if (value.length <= 10) {
-                                            setData("phone_number", value);
-                                        }
-                                    }}
-                                    maxLength={10}
-                                    inputMode="numeric"
-                                    placeholder="Enter 10 digit phone number"
+                                    name="phone"
+                                    value={data.phone}
+                                    onChange={handleChange}
+                                    placeholder="Enter phone number"
                                 />
 
-                                {errors.phone_number && (
+                                {errors.phone && (
                                     <small className="error">
-                                        {errors.phone_number}
+                                        {errors.phone}
                                     </small>
                                 )}
 
                             </div>
 
-                            {/* DOB */}
+
+                            {/* Website */}
 
                             <div className="form-group">
 
                                 <label>
-                                    Date of Birth
+                                    Website
                                 </label>
 
                                 <input
-                                    type="date"
-                                    name="dob"
-                                    value={data.dob}
+                                    type="url"
+                                    name="website"
+                                    value={data.website}
                                     onChange={handleChange}
+                                    placeholder="https://example.com"
                                 />
 
-                                {errors.dob && (
+                                {errors.website && (
                                     <small className="error">
-                                        {errors.dob}
+                                        {errors.website}
+                                    </small>
+                                )}
+
+                            </div>
+
+
+                            {/* GST */}
+
+                            <div className="form-group">
+
+                                <label>
+                                    GST Number
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="gst_number"
+                                    value={data.gst_number}
+                                    onChange={handleChange}
+                                    placeholder="Enter GST number"
+                                />
+
+                                {errors.gst_number && (
+                                    <small className="error">
+                                        {errors.gst_number}
+                                    </small>
+                                )}
+
+                            </div>
+
+
+                            {/* PAN */}
+
+                            <div className="form-group">
+
+                                <label>
+                                    PAN Number
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="pan_number"
+                                    value={data.pan_number}
+                                    onChange={handleChange}
+                                    placeholder="Enter PAN number"
+                                />
+
+                                {errors.pan_number && (
+                                    <small className="error">
+                                        {errors.pan_number}
+                                    </small>
+                                )}
+
+                            </div>
+
+
+                            {/* Zipcode */}
+
+                            <div className="form-group">
+
+                                <label>
+                                    Zipcode
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="zipcode"
+                                    value={data.zipcode}
+                                    onChange={handleChange}
+                                    placeholder="Enter zipcode"
+                                />
+
+                                {errors.zipcode && (
+                                    <small className="error">
+                                        {errors.zipcode}
                                     </small>
                                 )}
 
@@ -453,7 +474,7 @@ export default function ProfileEdit() {
                                     value={data.address}
                                     onChange={handleChange}
                                     rows="4"
-                                    placeholder="Enter your address"
+                                    placeholder="Enter company address"
                                 />
 
                                 {errors.address && (
@@ -464,14 +485,13 @@ export default function ProfileEdit() {
 
                             </div>
 
-
                         </div>
 
                     </div>
 
 
                     {/* =====================================================
-                        Profile Image
+                        Logo + Favicon
                     ====================================================== */}
 
                     <div className="card">
@@ -479,80 +499,137 @@ export default function ProfileEdit() {
                         <div className="card-header">
 
                             <h2>
-                                Profile Photo
+                                Company Logo
                             </h2>
 
                             <p>
-                                Upload your personal profile photo.
+                                Upload your company logo and website favicon.
                             </p>
 
                         </div>
 
 
-                        <div className="profile-image-row">
+                        {/* =================================================
+                            Logo + Favicon Same Row
+                        ================================================== */}
+
+                        <div className="logo-favicon-row">
 
 
-                            {/* Preview */}
+                            {/* Company Logo */}
 
-                            <div className="profile-image-preview">
+                            <div className="logo-section">
 
-                                {preview ? (
+                                <div className="logo-preview">
 
-                                    <img
-                                        src={preview}
-                                        alt="Profile"
-                                    />
+                                    {preview ? (
 
-                                ) : (
+                                        <img
+                                            src={preview}
+                                            alt="Company Logo"
+                                        />
 
-                                    <div className="profile-placeholder">
+                                    ) : (
 
-                                        {user?.first_name
-                                            ?.charAt(0)
-                                            ?.toUpperCase() || "A"}
+                                        <div className="logo-placeholder">
+                                            LOGO
+                                        </div>
 
-                                    </div>
+                                    )}
 
-                                )}
+                                </div>
+
+
+                                <div className="logo-upload">
+
+                                    <label className="upload-button">
+
+                                        Choose Logo
+
+                                        <input
+                                            type="file"
+                                            name="logo"
+                                            accept=".jpg,.jpeg,.png,.webp"
+                                            onChange={handleLogoChange}
+                                            hidden
+                                        />
+
+                                    </label>
+
+
+                                    <p>
+                                        JPG, JPEG, PNG or WEBP.
+                                        Maximum size 2MB.
+                                    </p>
+
+
+                                    {errors.logo && (
+                                        <small className="error">
+                                            {errors.logo}
+                                        </small>
+                                    )}
+
+                                </div>
 
                             </div>
 
 
-                            {/* Upload */}
+                            {/* Favicon */}
 
-                            <div className="profile-upload">
+                            <div className="favicon-section">
 
-                                <label className="upload-button">
+                                <div className="favicon-preview">
 
-                                    Choose Photo
+                                    {faviconPreview ? (
 
-                                    <input
-                                        type="file"
-                                        name="image"
-                                        accept=".jpg,.jpeg,.png,.webp"
-                                        onChange={handleImageChange}
-                                        hidden
-                                    />
+                                        <img
+                                            src={faviconPreview}
+                                            alt="Favicon"
+                                        />
 
-                                </label>
+                                    ) : (
+
+                                        <div className="favicon-placeholder">
+                                            F
+                                        </div>
+
+                                    )}
+
+                                </div>
 
 
-                                <p>
-                                    JPG, JPEG, PNG or WEBP.
-                                    Maximum size 2MB.
-                                </p>
+                                <div className="favicon-upload">
+
+                                    <label className="upload-button">
+
+                                        Choose Favicon
+
+                                        <input
+                                            type="file"
+                                            name="favicon"
+                                            accept=".ico,.png,.jpg,.jpeg,.webp"
+                                            onChange={handleFaviconChange}
+                                            hidden
+                                        />
+
+                                    </label>
 
 
-                                {errors.image && (
+                                    <p>
+                                        ICO, PNG, JPG, JPEG or WEBP.
+                                        Maximum size 1MB.
+                                    </p>
 
-                                    <small className="error">
-                                        {errors.image}
-                                    </small>
 
-                                )}
+                                    {errors.favicon && (
+                                        <small className="error">
+                                            {errors.favicon}
+                                        </small>
+                                    )}
+
+                                </div>
 
                             </div>
-
 
                         </div>
 
@@ -572,7 +649,7 @@ export default function ProfileEdit() {
                             </h2>
 
                             <p>
-                                Manage your address location information.
+                                Company location information.
                             </p>
 
                         </div>
@@ -599,7 +676,6 @@ export default function ProfileEdit() {
                                         Select Country
                                     </option>
 
-
                                     {countries?.map((country) => (
 
                                         <option
@@ -615,11 +691,9 @@ export default function ProfileEdit() {
 
 
                                 {errors.country_id && (
-
                                     <small className="error">
                                         {errors.country_id}
                                     </small>
-
                                 )}
 
                             </div>
@@ -641,11 +715,9 @@ export default function ProfileEdit() {
                                 >
 
                                     <option value="">
-
                                         {data.country_id
                                             ? "Select State"
                                             : "Select Country First"}
-
                                     </option>
 
 
@@ -664,11 +736,9 @@ export default function ProfileEdit() {
 
 
                                 {errors.state_id && (
-
                                     <small className="error">
                                         {errors.state_id}
                                     </small>
-
                                 )}
 
                             </div>
@@ -690,11 +760,9 @@ export default function ProfileEdit() {
                                 >
 
                                     <option value="">
-
                                         {data.state_id
                                             ? "Select City"
                                             : "Select State First"}
-
                                     </option>
 
 
@@ -713,42 +781,12 @@ export default function ProfileEdit() {
 
 
                                 {errors.city_id && (
-
                                     <small className="error">
                                         {errors.city_id}
                                     </small>
-
                                 )}
 
                             </div>
-
-
-                            {/* Zipcode */}
-
-                            <div className="form-group">
-
-                                <label>
-                                    Zipcode
-                                </label>
-
-                                <input
-                                    type="text"
-                                    name="zipcode"
-                                    value={data.zipcode}
-                                    onChange={handleChange}
-                                    placeholder="Enter zipcode"
-                                />
-
-                                {errors.zipcode && (
-
-                                    <small className="error">
-                                        {errors.zipcode}
-                                    </small>
-
-                                )}
-
-                            </div>
-
 
                         </div>
 
@@ -756,7 +794,7 @@ export default function ProfileEdit() {
 
 
                     {/* =====================================================
-                        Form Actions
+                        Save
                     ====================================================== */}
 
                     <div className="form-actions">
@@ -774,15 +812,12 @@ export default function ProfileEdit() {
                             className="save-button"
                             disabled={processing}
                         >
-
                             {processing
                                 ? "Saving..."
-                                : "Save Profile"}
-
+                                : "Save Company Profile"}
                         </button>
 
                     </div>
-
 
                 </form>
 
@@ -795,7 +830,7 @@ export default function ProfileEdit() {
 
             <style>{`
 
-                .profile-page {
+                .company-profile-page {
                     width: 100%;
                     max-width: none;
                     margin: 0;
@@ -805,10 +840,6 @@ export default function ProfileEdit() {
                     box-sizing: border-box;
                 }
 
-
-                /* =========================================================
-                   Header
-                ========================================================= */
 
                 .page-header {
                     display: flex;
@@ -855,10 +886,6 @@ export default function ProfileEdit() {
                 }
 
 
-                /* =========================================================
-                   Success
-                ========================================================= */
-
                 .success-message {
                     background: #ecfdf5;
                     color: #047857;
@@ -868,10 +895,6 @@ export default function ProfileEdit() {
                     margin-bottom: 20px;
                 }
 
-
-                /* =========================================================
-                   Card
-                ========================================================= */
 
                 .card {
                     background: white;
@@ -900,10 +923,6 @@ export default function ProfileEdit() {
                     font-size: 14px;
                 }
 
-
-                /* =========================================================
-                   Form
-                ========================================================= */
 
                 .form-grid {
                     padding: 20px;
@@ -952,11 +971,6 @@ export default function ProfileEdit() {
                 }
 
 
-                .form-group textarea {
-                    resize: vertical;
-                }
-
-
                 .form-group select {
                     cursor: pointer;
                 }
@@ -984,18 +998,42 @@ export default function ProfileEdit() {
 
 
                 /* =========================================================
-                   Profile Image
+                   Logo + Favicon Row
                 ========================================================= */
 
-                .profile-image-row {
+                .logo-favicon-row {
                     padding: 20px;
                     display: flex;
                     align-items: center;
-                    gap: 25px;
+                    gap: 50px;
                 }
 
 
-                .profile-image-preview {
+                .logo-section {
+                    padding: 0;
+                    display: flex;
+                    gap: 25px;
+                    align-items: center;
+                    flex: 1;
+                    min-width: 0;
+                }
+
+
+                .favicon-section {
+                    padding: 0;
+                    display: flex;
+                    gap: 25px;
+                    align-items: center;
+                    flex: 1;
+                    min-width: 0;
+                }
+
+
+                /* =========================================================
+                   Logo Preview
+                ========================================================= */
+
+                .logo-preview {
                     width: 120px;
                     height: 120px;
                     border: 1px dashed #cbd5e1;
@@ -1009,35 +1047,55 @@ export default function ProfileEdit() {
                 }
 
 
-                .profile-image-preview img {
+                .logo-preview img {
                     width: 100%;
                     height: 100%;
-                    object-fit: cover;
+                    object-fit: contain;
                 }
 
 
-                .profile-placeholder {
-                    width: 100%;
-                    height: 100%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    background: #f1f5f9;
-                    color: #64748b;
-                    font-size: 42px;
+                .logo-placeholder {
+                    color: #94a3b8;
                     font-weight: 700;
                 }
 
 
-                .profile-upload p {
-                    color: #6b7280;
-                    font-size: 13px;
-                    margin-bottom: 0;
+                /* =========================================================
+                   Favicon Preview
+                ========================================================= */
+
+                .favicon-preview {
+                    width: 70px;
+                    height: 70px;
+                    border: 1px dashed #cbd5e1;
+                    border-radius: 10px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    overflow: hidden;
+                    background: #fff;
+                    flex-shrink: 0;
+                }
+
+
+                .favicon-preview img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: contain;
+                    padding: 8px;
+                    box-sizing: border-box;
+                }
+
+
+                .favicon-placeholder {
+                    color: #94a3b8;
+                    font-weight: 700;
+                    font-size: 20px;
                 }
 
 
                 /* =========================================================
-                   Upload Button
+                   Upload
                 ========================================================= */
 
                 .upload-button {
@@ -1047,12 +1105,14 @@ export default function ProfileEdit() {
                     padding: 10px 16px;
                     border-radius: 8px;
                     cursor: pointer;
-                    font-weight: 500;
                 }
 
 
-                .upload-button:hover {
-                    background: #1d4ed8;
+                .logo-upload p,
+                .favicon-upload p {
+                    color: #6b7280;
+                    font-size: 13px;
+                    margin-bottom: 0;
                 }
 
 
@@ -1086,20 +1146,10 @@ export default function ProfileEdit() {
                 }
 
 
-                .cancel-button:hover {
-                    background: #f9fafb;
-                }
-
-
                 .save-button {
                     background: #2563eb;
                     color: white;
                     border: none;
-                }
-
-
-                .save-button:hover {
-                    background: #1d4ed8;
                 }
 
 
@@ -1115,7 +1165,7 @@ export default function ProfileEdit() {
 
                 @media (max-width: 768px) {
 
-                    .profile-page {
+                    .company-profile-page {
                         padding: 15px;
                     }
 
@@ -1137,21 +1187,16 @@ export default function ProfileEdit() {
                     }
 
 
-                    .profile-image-row {
+                    .logo-favicon-row {
                         flex-direction: column;
                         align-items: flex-start;
+                        gap: 25px;
                     }
 
 
-                    .form-actions {
-                        flex-direction: column-reverse;
-                    }
-
-
-                    .cancel-button,
-                    .save-button {
+                    .logo-section,
+                    .favicon-section {
                         width: 100%;
-                        text-align: center;
                     }
 
                 }
